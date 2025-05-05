@@ -1,0 +1,264 @@
+import axios from 'axios'
+import {useState} from 'react'
+export default function Addmenu(){
+    const [mnm,setMn]=useState("")
+    const[prz,setPrz]=useState(0)
+    const[fid,setFid]=useState(0)
+     const[qid,setQid]=useState(0)
+    
+
+
+     function getmn(e){
+        setMn(e.target.value)
+       
+    }
+
+    function getprice(e){
+        setPrz(e.target.value)
+        
+    }
+
+    
+    function getfid(e){
+        setFid(e.target.value)
+        
+    }
+    
+    function getqid(e){
+        setQid(e.target.value)
+        
+    }
+
+
+    function save(){
+        alert(mnm+prz+fid+qid)
+      mnm:mnm,
+       price:Prz,
+       Qid:qid
+        fid:fid,
+       
+      
+        }
+        axios.post("http//localhost:3000/addmenu",dt)
+        .then(response=>{  
+            if(response.data.status==200){
+                alert("save success")
+            }
+        })
+  
+            
+                    // return(
+                    // <>
+                    // <center>
+                    //     <h1>Add Menu</h1>
+                    //     <input type="text" onChange={getmn}></input><br></br>
+                    //     <input type="number" onChange={getprice}></input><br></br>
+                    //     <input type="number" onChange={getfid}></input><br></br>
+                    //     <input type="number" onChange={getqid}></input><br></br>
+                    //     <input type="button" onClick={save} value={"save"}></input><br></br>
+                    //     
+                    // </center>
+                    // </>
+    
+                    // )
+                
+            }
+
+
+
+            import axios from 'axios'
+            import {useState,useEffect } from 'react'
+            import * as React from 'react';
+            import {Dialog,DialogActions,DialogContent,DialogTitle,Button,TextField}from "@mui/material";
+            
+            
+            function Menu()
+            {
+              const [open,setOpen]=useState(false);
+              const [mnm,setMn]=useState("")
+              const[prz,setPrz]=useState(0)
+              const[fid,setFid]=useState(0)
+               const[qid,setQid]=useState(0)
+                
+                
+                
+                //handle open/close
+                const handleOpen = () => SetOpen(true);
+                const handleClose = () => SetOpen(false);
+                
+                
+                function getmn(e){
+                  setMn(e.target.value)
+                 
+              }
+            
+              function getprice(e){
+                  setPrz(e.target.value)
+                  
+              }
+            
+              
+              function getfid(e){
+                  setFid(e.target.value)
+                  
+              }
+              
+              function getqid(e){
+                  setQid(e.target.value)
+                  
+              }
+            
+                
+                //Handel form submissuon
+                const handleSubmit=(e)=>{
+                    e.preventDefault();
+                    console.log(mnm+" "+prz+" "+fid+" "+qid);
+                    const dt={
+                      mname:"abcd",
+                      price:34,
+                      fid:12,
+                       qid:12
+                    }
+                    axios.post("http://localhost:3000/addmenu",dt)
+                    .then(response=>{
+                      if(response.data.status==200){
+                        alert(" success")
+                        cntapi();
+            
+                      }else {
+                        alert("fail")
+                      }
+                    })
+                    
+                    handleClose(); //close the dialoge after submission
+                
+                };
+            
+            function del(){
+              const dt={
+                id:10
+            
+              }
+              axios.delete("http://localhost:3000/delmenuById", {
+            data :dt
+              })
+              .then(response=>{
+                if(response.data.status==200){
+                  alert(" Delete success")
+                  cntapi();
+                }
+                })
+            
+            }
+            
+                const [sts,setSts]=useState("")
+                const [data,setData]=useState([])
+                function cntapi(){
+                    axios.get("http://localhost:3000/menu")
+                    .then(response =>{ 
+                        let ar=response.data.menu
+                        setData(ar)
+                        console.log(ar)
+                    })
+                }
+                useEffect(()=>{
+                    cntapi();
+                },[])
+            
+            
+                return(
+                    <>
+                    <center>
+            
+                   < Dialog open={open} onClose={handleClose}>
+              <DialogTitle>Menu</DialogTitle>
+              <DialogContent>
+                <TextField
+                  fullWidth
+                  margin="dense"
+                  label="Menu Name"  // ✅ Fixed the typo here
+                  name="mname"
+                  
+                  onChange={getmn}
+                />
+            
+            <TextField
+                  fullWidth
+                  margin="dense"
+                  label="Price"  // ✅ Fixed the typo here
+                  name="Number"
+                  
+                  onChange={getprice}
+                />
+            
+            <TextField
+                  fullWidth
+                  margin="dense"
+                  label="Fid"  // ✅ Fixed the typo here
+                  name="fid"
+                
+                  onChange={getfid}
+                />
+            
+            <TextField
+                  fullWidth
+                  margin="dense"
+                  label="Qid"  // ✅ Fixed the typo here
+                  name="qid"
+                  
+                  onChange={getqid}
+                />
+                  </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose} color="secondary">Cancel</Button>
+                <Button onClick={handleSubmit} color="primary" variant="contained">Submit</Button>
+              </DialogActions>
+            </Dialog>
+                        <div>
+                    <table class="table table-striped table-dark">
+              <thead>
+                <tr>
+                <th scope="col">M_ID</th>
+                            <th scope="col">MENU NAME</th>
+                            <th scope="col">PRICE</th>
+                            <th scope="col">FOOD_ID</th>
+                            <th scope="col">QUANTITY_ID</th>
+                            <th scope="col">ACTION</th>
+                </tr>
+              </thead>
+              <tbody>
+               
+                {data.map((res)=>{
+                return(<tr> 
+                    <td>{res.mid} </td>
+                    <td>{res.mname} </td>
+                    <td>{res.price} </td>
+                    <td>{res.fid} </td>
+                    <td>{res.qid} </td>
+            
+                    <td>
+                   
+            
+                    <button type="button" class="btn btn-success"  onClick={handleOpen}>Add</button>
+                   
+                   <button type="button" class="btn btn-warning">Update</button>
+                   <button type="button" class="btn btn-danger" onClick={() =>del(res.mid)}>Delete</button>
+                   
+                   
+                   
+                   
+                   
+                           
+                       </td>
+                </tr>)
+                   })}
+              </tbody>
+            
+            </table>
+            </div>
+            </center>
+                 </>
+                 )
+                 ;
+                }
+                 export default Menu;                                                                                                                                        add popupform is not working solve this
